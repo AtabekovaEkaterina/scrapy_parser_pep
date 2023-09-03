@@ -1,12 +1,13 @@
 import scrapy
 
 from pep_parse.items import PepParseItem
+from pep_parse.settings import ALLOWED_DOMAIN_FOR_PEP_SPIDER
 
 
 class PepSpider(scrapy.Spider):
     name = 'pep'
-    allowed_domains = ['peps.python.org']
-    start_urls = ['https://peps.python.org/']
+    allowed_domains = [ALLOWED_DOMAIN_FOR_PEP_SPIDER]
+    start_urls = [f'https://{ALLOWED_DOMAIN_FOR_PEP_SPIDER}/']
 
     def parse(self, response):
         pep_all = response.xpath('//td/a/@href')
@@ -14,13 +15,13 @@ class PepSpider(scrapy.Spider):
             yield response.follow(pep_link, callback=self.parse_pep)
 
     def parse_pep(self, response):
-        name_and_namber_pep = (
+        name, namber = (
             response.css('h1.page-title::text').get()
         ).split(' – ')
 
         data = {
-            'number': name_and_namber_pep[0],
-            'name': name_and_namber_pep[1],
+            'number': namber,
+            'name': name,
             'status': response.css(
                 'dt:contains("Status") + dd > abbr::text'
             ).get()

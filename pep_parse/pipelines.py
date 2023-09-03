@@ -1,7 +1,8 @@
 import datetime as dt
 from collections import defaultdict
 
-from pep_parse.settings import BASE_DIR, DATETIME_FORMAT
+from pep_parse.settings import (BASE_DIR, DATETIME_FORMAT,
+                                HEADING_FOR_STATUS_SUMMARY)
 
 
 class PepParsePipeline:
@@ -14,7 +15,7 @@ class PepParsePipeline:
         self.file_name = f'status_summary_{now_formatted}.csv'
         self.file_path = self.results_dir / self.file_name
         self.file = open(self.file_path, mode='w', encoding='utf-8')
-        self.file.write('Статус,Количество\n')
+        self.file.write(HEADING_FOR_STATUS_SUMMARY)
 
     def process_item(self, item, spider):
         self.count_of_statuses[item['status']] += 1
