@@ -28,7 +28,7 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-4. Запустите парсер, после чего файлы .csv буду сохранены в директории results
+4. Запустите парсер, после чего файлы .csv будут сохранены в директории results
 ```
 scrapy crawl pep
 ```
